@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #14111f;
+}
+.custom-cursor-simple {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  background-color: #ff6fb5;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+}
+button {
+  padding: 20px 40px;
+  margin: 50px;
+  background: #c084fc;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<button>Test Button</button>
+
+<script>
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor-simple';
+document.body.appendChild(cursor);
+
+document.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+document.querySelector('button').addEventListener('mouseenter', () => {
+  cursor.style.width = '40px';
+  cursor.style.height = '40px';
+  cursor.style.backgroundColor = '#ff6fb5';
+});
+
+document.querySelector('button').addEventListener('mouseleave', () => {
+  cursor.style.width = '24px';
+  cursor.style.height = '24px';
+  cursor.style.backgroundColor = '#c084fc';
+});
+</script>
+</body>
+</html>

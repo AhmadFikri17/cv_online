@@ -134,3 +134,64 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img=>{
   img.addEventListener('load',()=>img.style.opacity='1');
   if(img.complete)img.style.opacity='1';
 });
+
+// ============ CUSTOM CURSOR - RINGAN & LUCU ============
+(function() {
+  // Hanya berjalan di desktop (lebar > 768px)
+  if (window.innerWidth > 768) {
+    console.log('Cursor: Desktop mode detected');
+    
+    // Buat elemen cursor
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor-simple';
+    document.body.appendChild(cursor);
+    
+    // GERAKAN LANGSUNG - TANPA SMOOTHING (TIDAK LAG)
+    document.addEventListener('mousemove', function(e) {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    
+    // Efek hover ringan
+    const interactiveSelectors = [
+      'a', 'button', '.btn', '.tab-btn', '.social-btn', 
+      '.proj-link-btn', 'input', 'textarea', '.hamburger', 
+      '.theme-btn', '.nav-links a', '.tag', '.icon-card', 
+      '.stat-box', '.t-card', '.proj-card', '.mob-link',
+      '[role="button"]', '.c-item'
+    ].join(',');
+    
+    function addHoverEffects() {
+      const elements = document.querySelectorAll(interactiveSelectors);
+      elements.forEach(el => {
+        if (!el.hasCursorEvent) {
+          el.hasCursorEvent = true;
+          el.addEventListener('mouseenter', function() {
+            cursor.classList.add('hover');
+          });
+          el.addEventListener('mouseleave', function() {
+            cursor.classList.remove('hover');
+          });
+        }
+      });
+    }
+    
+    addHoverEffects();
+    
+    // Observer untuk elemen baru
+    const observer = new MutationObserver(function() {
+      addHoverEffects();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+    // Efek klik ringan
+    document.addEventListener('mousedown', function() {
+      cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+      setTimeout(() => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      }, 120);
+    });
+    
+    console.log('✅ Cursor aktif!');
+  }
+})();
